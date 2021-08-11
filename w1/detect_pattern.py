@@ -49,3 +49,4 @@ def detect_all_kmers(text,limit=10):
 def print_all_kmers(kmer_d):
     for k,v in kmer_d.items():
         print("Length = {}\tK-mer = {}".format(k,v))
+

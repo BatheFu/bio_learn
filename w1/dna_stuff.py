@@ -2,7 +2,7 @@ from collections import Counter
 from detect_pattern import *
 
 
-def dna_complement(pattern):
+def dna_rv_complement(pattern):
     """return the reverse complement"""
     project_d = {'A': 'T', 'C': 'G'}
     project_d.update({v: k for k, v in project_d.items()})
