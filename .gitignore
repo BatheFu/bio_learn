@@ -6,4 +6,5 @@ lastfailed
 nodeids
 .pytest_cache
 .idea/*
-.ipynb_checkpoints
+.ipynb*
+dataset*

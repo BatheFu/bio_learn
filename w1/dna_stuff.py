@@ -1,6 +1,4 @@
 from collections import Counter
-from detect_pattern import *
-
 
 def dna_rv_complement(pattern):
     """return the reverse complement"""
