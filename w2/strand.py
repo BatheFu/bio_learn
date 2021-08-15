@@ -30,9 +30,27 @@ def skew(text,loc):
         elif text[i] == "G":
             score += 1
     return score
-def find_min_skew(text):
+def skew_lst(text,loc) -> list:
+    """return a list of skew scores"""
+    if loc == 0:
+        return [0]
+    score = 0
+    score_lst = list()
+    for i in range(loc):
+        if text[i] == "C":
+            score -= 1
+            score_lst.append(score)
+        elif text[i] == "G":
+            score += 1
+            score_lst.append(score)
+        elif text[i] == "A" or text[i] == "T":
+            score_lst.append(score)
+    return score_lst
+
+def find_min_skew(text) -> list:
     """find the minimum score, return the index, maybe more than one"""
-    res_lst =  [skew(text,i) for i in range(len(text))]
+    n = len(text)
+    res_lst =  skew_lst(text,n)
     res_dct = {} # mapping score:index
     for i,p in enumerate(res_lst):
         if not res_dct.__contains__(p):
@@ -42,14 +60,13 @@ def find_min_skew(text):
     min_score = min(res_dct.keys())
     return res_dct[min_score]
 
-def hamming_dist(p,q):
+def hamming_dist(p,q) -> int:
     """count the diff neucleutide of two strings"""
     dist = 0
     for i in range(len(p)):
         if p[i] != q[i]:
             dist += 1
     return dist
-
 def match_approx_patterns(pattern,text,d):
     """
     Input: Strings Pattern and Text along with an integer d.
@@ -102,10 +119,22 @@ def freq_words_with_mistakes(text,k,d):
     for key in freq_map.keys():
         if freq_map[key] == max_count:
             patterns.append(key)
-    print(*patterns)
+    return patterns
+
+def try_find_ori_in_salmon(text):
+    """Try Find ori in real salmonella bacteria"""
+    loc = find_min_skew(text)
+    print(loc)
+    window = text[loc[0]-500:loc[1]+500]
+    print(window)
+    patterns = freq_words_with_mistakes(window,9,2)
     return patterns
 
 
 if __name__ =="__main__":
-    s = "TATATATATCTATCGTGTTCCGCTACGCGTGTCGCGTACACTCTATAGTTAACTCTCACTCTACGCTATCACCGCGTACCGCCGCCGCTCACTCACGTACTAGTTCACACGTTCTATATATCCGCTCCGCTCGTTATACGCTCACTCTCTCTCGTTCTCGTCGCTCTCACGTTCGTCGCTAGTCGCCGCGTCGCTCGTTATACGC"
-    freq_words_with_mistakes(s,6,3)
+    r = hamming_dist("CTACAGCAATACGATCATATGCGGATCCGCAGTGGCCGGTAGACACACGT",
+                    "CTACCCCGCTGCTCAATGACCGGGACTAAAGAGGCGAAGATTATGGTGTG")
+    print(r)
+    print(find_min_skew("CATTCCAGTACTTCGATGATGGCGTGAAGA"))
+    print(count_pattern_with_mismatch("CGTGACAGTGTATGGGCATCTTT","TGT",1))
+    print(len(neighbors("TGCAT",2)))
